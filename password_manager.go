@@ -22,6 +22,7 @@ const file_path = "passwords.json"
 const iterations = 100_000
 
 type Password struct {
+	Id       int    `json:"id"`
 	Site     string `json:"site"`
 	Username string `json:"username"`
 	Pass     string `json:"password"`
@@ -48,7 +49,7 @@ func main() {
 		load_data(master_password)
 	}
 	for {
-		fmt.Println("\n1. Show passwords\n2. Add password\n3. Exit")
+		fmt.Println("\n1. Show passwords\n2. Add password\n3. Remove password\n4. Exit")
 		fmt.Print("Choose option: ")
 		choice, _ := reader.ReadString('\n')
 		choice = strings.TrimSpace(choice)
@@ -59,6 +60,8 @@ func main() {
 		case "2":
 			addPassword(reader, master_password)
 		case "3":
+			removePassword(reader, master_password)
+		case "4":
 			os.Exit(0)
 		default:
 			fmt.Println("Incorrect option")
@@ -181,8 +184,8 @@ func show_data() {
 	}
 	fmt.Println("\nPasswords:")
 	for _, p := range passwords {
-		fmt.Printf("Site: %s | Username: %s | Password: %s\n",
-			p.Site, p.Username, p.Pass)
+		fmt.Printf("%d. Site: %s | Username: %s | Password: %s\n",
+			p.Id+1, p.Site, p.Username, p.Pass)
 	}
 
 }
@@ -292,10 +295,33 @@ func addPassword(reader *bufio.Reader, masterPassword []byte) {
 	}
 
 	passwords = append(passwords, Password{
+		Id:       len(passwords),
 		Site:     strings.TrimSpace(site),
 		Username: strings.TrimSpace(username),
 		Pass:     strings.TrimSpace(password),
 	})
 
 	save_file(masterPassword)
+}
+
+func removePassword(reader *bufio.Reader, masterPassword []byte) {
+	for {
+		fmt.Println("Enter password id to remove: ")
+		id, _ := reader.ReadString('\n')
+		id = strings.TrimSpace(id)
+		idint, err := strconv.Atoi(id)
+		idint = idint - 1
+		if err != nil {
+			fmt.Println("Invalid input")
+			continue
+		}
+		if idint < 0 || idint >= len(passwords) {
+			fmt.Println("Invalid input")
+			continue
+		}
+		passwords = append(passwords[:idint], passwords[idint+1:]...)
+		break
+	}
+	defer save_file(masterPassword)
+	fmt.Println("Password removed successfully")
 }

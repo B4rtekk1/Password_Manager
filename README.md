@@ -72,7 +72,8 @@ File saved successfully
 
 1. Show passwords
 2. Add password
-3. Exit
+3. Remove password
+4. Exit
 Choose option: 2
 Site name: example.com
 Username: user123
@@ -83,7 +84,8 @@ File saved successfully
 
 1. Show passwords
 2. Add password
-3. Exit
+3. Remove password
+4. Exit
 Choose option: 2
 Site name: example2.com
 Username: user123
@@ -93,11 +95,21 @@ File saved successfully
 
 1. Show passwords
 2. Add password
-3. Exit
+3. Remove password
+4. Exit
 Choose option: 1
 Passwords:
 Site: example.com | Username: user123 | Password: ********
 Site: example2.com | Username: user123 | Password: ********
+
+1. Show passwords
+2. Add password
+3. Remove password
+4. Exit
+Choose option: 3
+Enter password id to remove: 1
+Password removed successfully
+File saved successfully
 ```
 
 ## Known issues
@@ -105,6 +117,7 @@ Site: example2.com | Username: user123 | Password: ********
 - The program may not work correctly when run inside some IDE integrated terminals or the default Windows CMD, especially when entering the master password (hidden input).
 - For best results, run the program in a standalone terminal emulator such as PowerShell, Windows Terminal, or a Unix-like shell (e.g., bash, zsh).
 - This limitation is due to how some terminals handle input/output and the behavior of the golang.org/x/term package.
+- The ID assigned to each password entry is fixed at the time of creation and does not automatically update or shift when other entries are added or removed. Therefore, IDs should be treated as unique identifiers and not assumed to represent the current position in the list.
 
 ## Notes
 
