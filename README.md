@@ -123,3 +123,4 @@ Site: example2.com | Username: user123 | Password: ********
 - Add functionality to edit or delete existing passwords.
 - Add support for exporting/importing the password database.
 - Enhance error handling for invalid inputs.
+- Mobile/Web app for accessibility
