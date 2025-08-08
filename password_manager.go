@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -248,8 +249,47 @@ func addPassword(reader *bufio.Reader, masterPassword []byte) {
 	site, _ := reader.ReadString('\n')
 	fmt.Print("Username: ")
 	username, _ := reader.ReadString('\n')
-	fmt.Print("Password: ")
-	password, _ := reader.ReadString('\n')
+	fmt.Print("Generate password? (y/n): ")
+	generate, _, err := reader.ReadRune()
+
+	if err != nil {
+		fmt.Println("Error while reading input:", err)
+		return
+	}
+	reader.ReadString('\n')
+
+	if generate != 'y' && generate != 'n' {
+		fmt.Println("Invalid input")
+		return
+	}
+
+	var password string
+
+	if generate == 'y' {
+		for {
+
+			fmt.Println("Password lenght (8-255): ")
+			lenght, _ := reader.ReadString('\n')
+			lenght = strings.TrimSpace(lenght)
+			lenghtint, err := strconv.Atoi(lenght)
+			if err != nil {
+				fmt.Println("Invalid input")
+				continue
+			}
+			pass, err := generatePassword(uint8(lenghtint))
+			if err != nil {
+				fmt.Println("Error while creating password")
+				return
+			}
+			fmt.Println("Generated password: ", pass)
+			password = pass
+			break
+		}
+	} else {
+		fmt.Println("Enter password: ")
+		pass, _ := reader.ReadString('\n')
+		password = pass
+	}
 
 	passwords = append(passwords, Password{
 		Site:     strings.TrimSpace(site),

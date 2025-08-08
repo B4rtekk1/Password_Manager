@@ -10,11 +10,12 @@ This is a command-line password manager written in Go. It securely stores passwo
 - **Master Password**: A single master password is used to encrypt and decrypt all stored credentials.
 - **Command-Line Interface**: Simple menu-driven interface to add, view, or exit the program.
 - **Persistent Storage**: Passwords are stored in a JSON file (`passwords.json`) and loaded on program startup.
+- **Password generator**: Generate strong random passwords containing lowercases, upercases, digits and special characters.
 
 ## Prerequisites
 
 - Go 1.16 or higher
-- Standard Go libraries and `golang.org/x/crypto` for cryptographic functions
+- Standard Go libraries and third party libraries `golang.org/x/crypto` and `golang.org/x/term`
 
 ## Installation
 
@@ -31,7 +32,7 @@ This is a command-line password manager written in Go. It securely stores passwo
 4. Build and run the program:
 
    ```bash
-   go run password_manager.go
+   go run .
    ```
 
 ## Usage
@@ -42,6 +43,7 @@ This is a command-line password manager written in Go. It securely stores passwo
 2. **Main Menu**:
    - **1. Show passwords**: Displays all stored passwords (site, username, password).
    - **2. Add password**: Prompts for site name, username, and password, then saves them.
+   - **2.1. Password generator**: Generate strong password
    - **3. Exit**: Exits the program.
 3. **Loading Existing Data**:
    - If `passwords.json` exists, you will be prompted for the master password to decrypt and load the stored passwords.
@@ -57,12 +59,13 @@ This is a command-line password manager written in Go. It securely stores passwo
 ## File Structure
 
 - `password_manager.go`: The main Go source file containing the password manager logic.
+- `password_generator.go`: The file contain password generator code.
 - `passwords.json`: The file where encrypted passwords are stored (created automatically).
 
 ## Example
 
 ```bash
-$ go run password_manager.go
+$ go run .
 Set new master password: ******
 Confirm master password: ******
 File saved successfully
@@ -73,7 +76,19 @@ File saved successfully
 Choose option: 2
 Site name: example.com
 Username: user123
-Password: mysecurepassword
+Generate password? (y/n): y
+Password lenght (8-255): 8
+Generated password: ********
+File saved successfully
+
+1. Show passwords
+2. Add password
+3. Exit
+Choose option: 2
+Site name: example2.com
+Username: user123
+Generate password? (y/n): n
+Enter password: ********
 File saved successfully
 
 1. Show passwords
@@ -81,8 +96,15 @@ File saved successfully
 3. Exit
 Choose option: 1
 Passwords:
-Site: example.com | Username: user123 | Password: mysecurepassword
+Site: example.com | Username: user123 | Password: ********
+Site: example2.com | Username: user123 | Password: ********
 ```
+
+## Known issues
+
+- The program may not work correctly when run inside some IDE integrated terminals or the default Windows CMD, especially when entering the master password (hidden input).
+- For best results, run the program in a standalone terminal emulator such as PowerShell, Windows Terminal, or a Unix-like shell (e.g., bash, zsh).
+- This limitation is due to how some terminals handle input/output and the behavior of the golang.org/x/term package.
 
 ## Notes
 
@@ -99,6 +121,5 @@ Site: example.com | Username: user123 | Password: mysecurepassword
 ## Future Improvements
 
 - Add functionality to edit or delete existing passwords.
-- Implement a password generator for stronger passwords.
 - Add support for exporting/importing the password database.
 - Enhance error handling for invalid inputs.
