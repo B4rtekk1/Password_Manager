@@ -302,6 +302,7 @@ func addPassword(reader *bufio.Reader, masterPassword []byte) {
 	})
 
 	save_file(masterPassword)
+	updateIndex()
 }
 
 func removePassword(reader *bufio.Reader, masterPassword []byte) {
@@ -324,4 +325,11 @@ func removePassword(reader *bufio.Reader, masterPassword []byte) {
 	}
 	defer save_file(masterPassword)
 	fmt.Println("Password removed successfully")
+	updateIndex()
+}
+
+func updateIndex() {
+	for i := range passwords {
+		passwords[i].Id = i
+	}
 }

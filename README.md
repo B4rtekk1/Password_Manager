@@ -117,23 +117,22 @@ File saved successfully
 - The program may not work correctly when run inside some IDE integrated terminals or the default Windows CMD, especially when entering the master password (hidden input).
 - For best results, run the program in a standalone terminal emulator such as PowerShell, Windows Terminal, or a Unix-like shell (e.g., bash, zsh).
 - This limitation is due to how some terminals handle input/output and the behavior of the golang.org/x/term package.
-- The ID assigned to each password entry is fixed at the time of creation and does not automatically update or shift when other entries are added or removed. Therefore, IDs should be treated as unique identifiers and not assumed to represent the current position in the list.
 
 ## Notes
 
 - The master password is critical. If lost, the encrypted passwords in `passwords.json` cannot be recovered.
 - Ensure `passwords.json` is backed up securely, as it contains all encrypted credentials.
-- The program does not currently support editing or deleting passwords; you can extend it by modifying the code.
+- The program does not currently support editing; you can extend it by modifying the code.
 
 ## Limitations
 
-- No password editing or deletion functionality.
+- No password editing functionality.
 - No backup or recovery mechanism for the master password.
 - The program runs in a terminal and does not have a graphical interface.
 
 ## Future Improvements
 
-- Add functionality to edit or delete existing passwords.
+- Add functionality to edit existing passwords.
 - Add support for exporting/importing the password database.
 - Enhance error handling for invalid inputs.
 - Mobile/Web app for accessibility
